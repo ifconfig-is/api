@@ -15,8 +15,10 @@ import (
 func GetIP(p graphql.ResolveParams) net.IP {
 	var ip net.IP
 	if p.Args["address"] != nil && p.Args["address"] != "" {
+		fmt.Println(p.Args["address"])
 		ip = ParseIP(p.Args["address"].(string))
 	} else {
+		fmt.Println(p.Args["address"])
 		ctx := p.Context.(*gin.Context)
 		ips := ctx.Request.Header.Get("X-Forwarded-For")
 		ip = net.ParseIP(strings.Split(ips, ",")[0])
@@ -29,13 +31,16 @@ func ParseIP(address string) net.IP {
 	if ip != nil {
 		return ip
 	} else {
-		u, err := url.Parse(address)
-		if err != nil {
+		var host string
+		u, err := url.ParseRequestURI(address)
+		if err == nil {
+			host = u.Host
+		} else {
 			fmt.Println(err)
+			host = address
 		}
-		ips, err := net.LookupIP(u.Host)
+		ips, err := net.LookupIP(host)
 		if err != nil {
-			fmt.Println(u.Host)
 			fmt.Println(err)
 		}
 		return ips[0]

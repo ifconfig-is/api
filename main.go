@@ -88,8 +88,11 @@ func main() {
 	// Set router
 	r := gin.Default()
 
-	// GraphQL API Endpoint
+	// GraphQL API
 	r.POST("/gql", HDLR())
+
+	// Simple API
+	r.GET("/", Root)
 
 	// Start
 	fmt.Println()

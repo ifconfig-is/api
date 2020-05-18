@@ -8,6 +8,7 @@ var queryType = graphql.NewObject(
 	graphql.ObjectConfig{
 		Name: "Query",
 		Fields: graphql.Fields{
+			"IP":                   ipField,
 			"GeoIP2ASN":            gasnField,
 			"GeoIP2AnonymousIP":    gaipField,
 			"GeoIP2City":           gcityField,

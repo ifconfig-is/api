@@ -16,3 +16,8 @@ func HDLR() gin.HandlerFunc {
 		h.ContextHandler(c, c.Writer, c.Request)
 	}
 }
+
+func Root(c *gin.Context) {
+	// Write response
+	c.String(200, "Hello")
+}

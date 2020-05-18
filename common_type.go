@@ -93,7 +93,7 @@ var locationType = graphql.NewObject(
 				Type: graphql.String,
 			},
 			"Latitude": &graphql.Field{
-				Type: graphql.Boolean,
+				Type: graphql.String,
 			},
 			"Longitude": &graphql.Field{
 				Type: graphql.String,
