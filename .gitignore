@@ -1,2 +1,5 @@
 # MaxMind files
 /maxmind
+
+# Binary
+geoip2-gql

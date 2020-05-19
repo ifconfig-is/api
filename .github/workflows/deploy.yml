@@ -1,0 +1,37 @@
+name: Deploy to Server
+
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout code
+      - uses: actions/checkout@master
+
+      # Build
+      - name: build
+        run: |
+          go build .
+
+      # Rsync to Server
+      - name: deploy
+        uses: i3h/actions/rsync@master
+        env:
+          SRC: ./geoip2-gql
+          DEST: /var/www/ifconfig/api/geoip2-gql
+          USERNAME: root
+          SERVER: ${{ secrets.SERVER_IP }}
+          KEY: ${{ secrets.SERVER_KEY }}
+
+      # Restart service
+      - name: restart service
+        uses: i3h/actions/exec@master
+        env:
+          SERVER: ${{ secrets.SERVER_IP }}
+          USERNAME: root
+          KEY: ${{ secrets.SERVER_KEY }}
+          COMMAND: systemctl restart ifconfig.api
