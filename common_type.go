@@ -2,6 +2,18 @@ package main
 
 import "github.com/graphql-go/graphql"
 
+type SimpleData struct {
+	Continent string  `json:"Continent"`
+	Country   string  `json:"Country"`
+	City      string  `json:"City"`
+	Latitude  float64 `json:"Latitude"`
+	Longitude float64 `json:"Longitude"`
+	TimeZone  string  `json:"TimeZone"`
+	IsEU      bool    `json:"IsEU"`
+	ASN       uint    `json:"ASN"`
+	ORG       string  `json:"ORG"`
+}
+
 var namesType = graphql.NewObject(
 	graphql.ObjectConfig{
 		Name: "Names",

@@ -92,7 +92,8 @@ func main() {
 	r.POST("/gql", HDLR())
 
 	// Simple API
-	r.GET("/", Root)
+	r.GET("/", GetIPAddress)
+	r.GET("/json", GetSimpleData)
 
 	// Start
 	fmt.Println()
