@@ -4,21 +4,23 @@ import (
 	"fmt"
 	"log"
 	"net"
+	"os"
 
 	"github.com/gin-gonic/gin"
 	"github.com/oschwald/geoip2-golang"
 )
 
+var Port string
+
 const (
-	Port            string = "3000"
-	ASN_MMDB        string = "maxmind/GeoLite2-ASN-Test.mmdb"
-	AIP_MMDB        string = "maxmind/GeoIP2-Anonymous-IP-Test.mmdb"
-	City_MMDB       string = "maxmind/GeoIP2-City-Test.mmdb"
-	CType_MMDB      string = "maxmind/GeoIP2-Connection-Type-Test.mmdb"
-	Country_MMDB    string = "maxmind/GeoIP2-Country-Test.mmdb"
-	Domain_MMDB     string = "maxmind/GeoIP2-Domain-Test.mmdb"
-	Enterprise_MMDB string = "maxmind/GeoIP2-Enterprise-Test.mmdb"
-	ISP_MMDB        string = "maxmind/GeoIP2-ISP-Test.mmdb"
+	ASN_MMDB        string = "maxmind/GeoLite2-ASN.mmdb"
+	AIP_MMDB        string = "maxmind/GeoIP2-Anonymous-IP.mmdb"
+	City_MMDB       string = "maxmind/GeoIP2-City.mmdb"
+	CType_MMDB      string = "maxmind/GeoIP2-Connection-Type.mmdb"
+	Country_MMDB    string = "maxmind/GeoIP2-Country.mmdb"
+	Domain_MMDB     string = "maxmind/GeoIP2-Domain.mmdb"
+	Enterprise_MMDB string = "maxmind/GeoIP2-Enterprise.mmdb"
+	ISP_MMDB        string = "maxmind/GeoIP2-ISP.mmdb"
 )
 
 type DB struct {
@@ -85,6 +87,12 @@ func init() {
 }
 
 func main() {
+	// Set running port
+	Port = os.Getenv("GEOIP2GQL_PORT")
+	if Port == "" {
+		Port = "3000"
+	}
+
 	// Set router
 	r := gin.Default()
 
