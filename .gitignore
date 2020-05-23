@@ -3,3 +3,7 @@
 
 # Binary
 geoip2-gql
+
+# Scripts
+build-docker-image.sh
+run-docker-container.sh
