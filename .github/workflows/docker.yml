@@ -1,0 +1,21 @@
+name: Publish to DockerHub
+
+on:
+  push:
+    tags:
+      - "*"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout code
+      - uses: actions/checkout@master
+
+      # publish to docker hub
+      - uses: elgohr/Publish-Docker-Github-Action@master
+        with:
+          name: mark314/geoip2-gql
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          workdir: .
