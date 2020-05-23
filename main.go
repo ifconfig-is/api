@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"log"
 	"net"
 	"os"
 
@@ -10,17 +9,17 @@ import (
 	"github.com/oschwald/geoip2-golang"
 )
 
-var Port string
-
-const (
-	ASN_MMDB        string = "maxmind/GeoLite2-ASN.mmdb"
-	AIP_MMDB        string = "maxmind/GeoIP2-Anonymous-IP.mmdb"
-	City_MMDB       string = "maxmind/GeoIP2-City.mmdb"
-	CType_MMDB      string = "maxmind/GeoIP2-Connection-Type.mmdb"
-	Country_MMDB    string = "maxmind/GeoIP2-Country.mmdb"
-	Domain_MMDB     string = "maxmind/GeoIP2-Domain.mmdb"
-	Enterprise_MMDB string = "maxmind/GeoIP2-Enterprise.mmdb"
-	ISP_MMDB        string = "maxmind/GeoIP2-ISP.mmdb"
+var (
+	Port            string
+	MaxMind_PATH    string
+	ASN_MMDB        string
+	AIP_MMDB        string
+	City_MMDB       string
+	CType_MMDB      string
+	Country_MMDB    string
+	Domain_MMDB     string
+	Enterprise_MMDB string
+	ISP_MMDB        string
 )
 
 type DB struct {
@@ -37,38 +36,50 @@ type DB struct {
 var db DB
 
 func init_database() {
+	// Set maxmind path
+	MaxMind_PATH = os.Getenv("MAXMIND_PATH")
+	// Set mmdb path
+	ASN_MMDB = MaxMind_PATH + "/GeoLite2-ASN.mmdb"
+	AIP_MMDB = MaxMind_PATH + "/GeoIP2-Anonymous-IP.mmdb"
+	City_MMDB = MaxMind_PATH + "/GeoIP2-City.mmdb"
+	CType_MMDB = MaxMind_PATH + "/GeoIP2-Connection-Type.mmdb"
+	Country_MMDB = MaxMind_PATH + "/GeoIP2-Country.mmdb"
+	Domain_MMDB = MaxMind_PATH + "/GeoIP2-Domain.mmdb"
+	Enterprise_MMDB = MaxMind_PATH + "/GeoIP2-Enterprise.mmdb"
+	ISP_MMDB = MaxMind_PATH + "/GeoIP2-ISP.mmdb"
+
 	var err error
 	db_asn, err := geoip2.Open(ASN_MMDB)
 	if err != nil {
-		log.Fatal(err)
+		fmt.Println("Not Found: ", ASN_MMDB)
 	}
 	db_aip, err := geoip2.Open(AIP_MMDB)
 	if err != nil {
-		log.Fatal(err)
+		fmt.Println("Not Found: ", AIP_MMDB)
 	}
 	db_city, err := geoip2.Open(City_MMDB)
 	if err != nil {
-		log.Fatal(err)
+		fmt.Println("Not Found: ", City_MMDB)
 	}
 	db_ctype, err := geoip2.Open(CType_MMDB)
 	if err != nil {
-		log.Fatal(err)
+		fmt.Println("Not Found: ", CType_MMDB)
 	}
 	db_country, err := geoip2.Open(Country_MMDB)
 	if err != nil {
-		log.Fatal(err)
+		fmt.Println("Not Found: ", Country_MMDB)
 	}
 	db_domain, err := geoip2.Open(Domain_MMDB)
 	if err != nil {
-		log.Fatal(err)
+		fmt.Println("Not Found: ", Domain_MMDB)
 	}
 	db_enterprise, err := geoip2.Open(Enterprise_MMDB)
 	if err != nil {
-		log.Fatal(err)
+		fmt.Println("Not Found: ", Enterprise_MMDB)
 	}
 	db_isp, err := geoip2.Open(ISP_MMDB)
 	if err != nil {
-		log.Fatal(err)
+		fmt.Println("Not Found: ", ISP_MMDB)
 	}
 	db = DB{
 		ASN:            db_asn.ASN,
