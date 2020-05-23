@@ -106,3 +106,28 @@ func AddNames(vdata interface{}, vtype string) interface{} {
 	}
 	return nil
 }
+
+func GetSimpleData(ip net.IP) SimpleData {
+	asn, err := db.ASN(ip)
+	if err != nil {
+		fmt.Println(err)
+	}
+	city, err := db.City(ip)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	data := SimpleData{
+		Continent: city.Continent.Names["en"],
+		Country:   city.Country.Names["en"],
+		City:      city.City.Names["en"],
+		Latitude:  city.Location.Latitude,
+		Longitude: city.Location.Longitude,
+		TimeZone:  city.Location.TimeZone,
+		IsEU:      city.Country.IsInEuropeanUnion,
+		ASN:       asn.AutonomousSystemNumber,
+		ORG:       asn.AutonomousSystemOrganization,
+	}
+
+	return data
+}

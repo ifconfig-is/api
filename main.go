@@ -38,6 +38,9 @@ var db DB
 func init_database() {
 	// Set maxmind path
 	MaxMind_PATH = os.Getenv("MAXMIND_PATH")
+	if MaxMind_PATH == "" {
+		MaxMind_PATH = "./maxmind"
+	}
 	// Set mmdb path
 	ASN_MMDB = MaxMind_PATH + "/GeoLite2-ASN.mmdb"
 	AIP_MMDB = MaxMind_PATH + "/GeoIP2-Anonymous-IP.mmdb"
@@ -112,7 +115,8 @@ func main() {
 
 	// Simple API
 	r.GET("/", GetIPAddress)
-	r.GET("/json", GetSimpleData)
+	r.GET("/json", GetJsonData)
+	r.GET("/json/:address", GetJsonDataAddress)
 
 	// Start
 	fmt.Println()

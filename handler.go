@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"net"
 
 	"github.com/gin-gonic/gin"
@@ -25,28 +24,17 @@ func GetIPAddress(c *gin.Context) {
 	c.String(200, c.ClientIP()+"\n")
 }
 
-func GetSimpleData(c *gin.Context) {
+func GetJsonData(c *gin.Context) {
 	ip := net.ParseIP(c.ClientIP())
-	asn, err := db.ASN(ip)
-	if err != nil {
-		fmt.Println(err)
-	}
-	city, err := db.City(ip)
-	if err != nil {
-		fmt.Println(err)
-	}
+	data := GetSimpleData(ip)
 
-	data := SimpleData{
-		Continent: city.Continent.Names["en"],
-		Country:   city.Country.Names["en"],
-		City:      city.City.Names["en"],
-		Latitude:  city.Location.Latitude,
-		Longitude: city.Location.Longitude,
-		TimeZone:  city.Location.TimeZone,
-		IsEU:      city.Country.IsInEuropeanUnion,
-		ASN:       asn.AutonomousSystemNumber,
-		ORG:       asn.AutonomousSystemOrganization,
-	}
+	// Write response
+	c.JSON(200, data)
+}
+
+func GetJsonDataAddress(c *gin.Context) {
+	ip := net.ParseIP(c.Param("address"))
+	data := GetSimpleData(ip)
 
 	// Write response
 	c.JSON(200, data)
