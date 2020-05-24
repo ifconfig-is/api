@@ -33,7 +33,7 @@ func GetJsonData(c *gin.Context) {
 }
 
 func GetJsonDataAddress(c *gin.Context) {
-	ip := net.ParseIP(c.Param("address"))
+	ip := ParseIP(c.Param("address"))
 	data := GetSimpleData(ip)
 
 	// Write response
