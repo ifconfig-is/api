@@ -12,10 +12,10 @@ jobs:
       # Checkout code
       - uses: actions/checkout@master
 
-      # publish to docker hub
-      - uses: elgohr/Publish-Docker-Github-Action@master
+      - name: Build and push Docker images
+        uses: docker/build-push-action@v1
         with:
-          name: mark314/geoip2-gql
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-          workdir: .
+          repository: ifconfigis/api
+          tags: latest

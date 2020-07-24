@@ -102,9 +102,9 @@ func init() {
 
 func main() {
 	// Set running port
-	Port = os.Getenv("GEOIP2GQL_PORT")
+	Port = os.Getenv("IFCONFIGIS_API_PORT")
 	if Port == "" {
-		Port = "3000"
+		Port = "5000"
 	}
 
 	// Set router

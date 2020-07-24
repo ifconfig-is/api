@@ -2,7 +2,7 @@
 /maxmind
 
 # Binary
-geoip2-gql
+api
 
 # Scripts
 build-docker-image.sh
