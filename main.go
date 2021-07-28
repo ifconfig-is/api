@@ -5,6 +5,7 @@ import (
 	"net"
 	"os"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/oschwald/geoip2-golang"
 )
@@ -109,6 +110,9 @@ func main() {
 
 	// Set router
 	r := gin.Default()
+
+	// Allow all origins
+	r.Use(cors.Default())
 
 	// GraphQL API
 	r.POST("/gql", HDLR())
