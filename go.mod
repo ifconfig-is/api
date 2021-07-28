@@ -7,5 +7,6 @@ require (
 	github.com/gin-gonic/gin v1.6.3
 	github.com/graphql-go/graphql v0.7.9
 	github.com/graphql-go/handler v0.2.3
-	github.com/oschwald/geoip2-golang v1.4.0
+	github.com/oschwald/geoip2-golang v1.5.0
+	golang.org/x/sys v0.0.0-20210630005230-0f9fa26af87c // indirect
 )
