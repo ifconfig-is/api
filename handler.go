@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"net"
 
 	"github.com/gin-gonic/gin"
@@ -16,7 +17,8 @@ func GetJson(c *gin.Context) {
 	data := GetData(ip)
 
 	// Write response
-	c.JSON(200, data)
+	s, _ := json.MarshalIndent(data, "", "  ")
+	c.String(200, string(s)+"\n")
 }
 
 func GetJsonWithIP(c *gin.Context) {
@@ -24,5 +26,6 @@ func GetJsonWithIP(c *gin.Context) {
 	data := GetData(ip)
 
 	// Write response
-	c.JSON(200, data)
+	s, _ := json.MarshalIndent(data, "", "  ")
+	c.String(200, string(s)+"\n")
 }
