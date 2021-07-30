@@ -1,30 +1,28 @@
 package main
 
 import (
-	"fmt"
 	"net"
 )
 
 type Data struct {
-	IP        string  `json:"IP"`
-	Continent string  `json:"Continent"`
-	Country   string  `json:"Country"`
-	City      string  `json:"City"`
-	Latitude  float64 `json:"Latitude"`
-	Longitude float64 `json:"Longitude"`
-	IsEU      bool    `json:"IsEU"`
-	ASN       uint    `json:"ASN"`
-	ORG       string  `json:"ORG"`
+	IP        string  `json:"ip"`
+	Continent string  `json:"continent"`
+	Country   string  `json:"country"`
+	City      string  `json:"city"`
+	Lat       float64 `json:"latitude"`
+	Lon       float64 `json:"longitude"`
+	ASN       uint    `json:"asn"`
+	ORG       string  `json:"organization"`
 }
 
 func GetData(ip net.IP) Data {
 	asn, err := db.ASN(ip)
 	if err != nil {
-		fmt.Println(err)
+		//fmt.Println(err)
 	}
 	city, err := db.City(ip)
 	if err != nil {
-		fmt.Println(err)
+		//fmt.Println(err)
 	}
 
 	data := Data{
@@ -32,9 +30,8 @@ func GetData(ip net.IP) Data {
 		Continent: city.Continent.Names["en"],
 		Country:   city.Country.Names["en"],
 		City:      city.City.Names["en"],
-		Latitude:  city.Location.Latitude,
-		Longitude: city.Location.Longitude,
-		IsEU:      city.Country.IsInEuropeanUnion,
+		Lat:       city.Location.Latitude,
+		Lon:       city.Location.Longitude,
 		ASN:       asn.AutonomousSystemNumber,
 		ORG:       asn.AutonomousSystemOrganization,
 	}

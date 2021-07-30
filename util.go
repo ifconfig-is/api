@@ -22,7 +22,11 @@ func ParseIP(address string) net.IP {
 		ips, err := net.LookupIP(host)
 		if err != nil {
 		}
-		return ips[0]
+		if len(ips) != 0 {
+			return ips[0]
+		} else {
+			return net.IP{}
+		}
 	}
 }
 
