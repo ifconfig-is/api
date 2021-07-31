@@ -84,13 +84,6 @@ func main() {
 	// Add dispatcher
 	r.Use(Dispatcher())
 
-	/*
-		// API endpoints
-		r.GET("/", GetIP)
-		r.GET("/json", GetJson)
-		r.GET("/json/:address", GetJsonWithIP)
-	*/
-
 	// Start
 	fmt.Println()
 	fmt.Println("Listening...")

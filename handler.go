@@ -24,8 +24,8 @@ func GetJson(c *gin.Context) {
 	c.String(200, string(s)+"\n")
 }
 
-func GetJsonWithIP(c *gin.Context) {
-	ip := ParseIP(c.Param("address"))
+func GetJsonWithIP(c *gin.Context, ip_str string) {
+	ip := ParseIP(ip_str)
 	data := GetData(ip)
 
 	// Write response
@@ -37,31 +37,23 @@ func Dispatcher() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		isBrowser := IsBrowser(c)
 		path := c.Request.URL.String()
-		r := strings.Split(path, "/")[1]
+		list := strings.Split(path, "/")
+		r := list[1]
+		a := ""
+		if len(list) > 2 {
+			a = list[2]
+		}
 
-		/*
-			if r == "json" {
-				//ReplyPrettyJson(c, API)
-				GetJson(c)
-			} else if !isBrowser {
-				//PassToApi(c)
-				GetIP(c)
-			} else {
-				fmt.Println("is browser")
-				// Serve static resources for browser
-				file := STATIC + "/" + c.Request.URL.Path
-				http.ServeFile(c.Writer, c.Request, file)
-			}
-		*/
-
-		if isBrowser {
+		if r == "json" && a == "" {
+			GetJson(c)
+		} else if r == "json" && a != "" {
+			GetJsonWithIP(c, a)
+		} else if !isBrowser {
+			GetIP(c)
+		} else {
 			// Serve static resources for browser
 			file := STATIC + "/" + c.Request.URL.Path
 			http.ServeFile(c.Writer, c.Request, file)
-		} else if r == "json" {
-			GetJson(c)
-		} else {
-			GetJson(c)
 		}
 	}
 }
