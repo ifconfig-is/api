@@ -1,5 +1,5 @@
 # Build
-FROM golang:1.13.11-buster AS build
+FROM golang:1.16.6-buster AS build
 ARG DEBIAN_FRONTEND=noninteractive
 WORKDIR /
 COPY . .
@@ -12,7 +12,5 @@ RUN go build .
 FROM scratch
 COPY --from=build \
 	/api /api
-COPY --from=build \
-	/static /static
 
 ENTRYPOINT ["/api"]

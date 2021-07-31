@@ -18,7 +18,7 @@ var (
 	PORT   string
 	STATIC string
 	NG_URL string
-	PROD   bool
+	DEV    bool
 )
 
 type DB struct {
@@ -62,11 +62,6 @@ func main() {
 	PORT = os.Getenv("IFCONFIGIS_API_PORT")
 	if PORT == "" {
 		PORT = "5000"
-	}
-
-	STATIC = os.Getenv("IFCONFIGIS_STATIC")
-	if STATIC == "" {
-		STATIC = "./static"
 	}
 
 	NG_URL = os.Getenv("IFCONFIGIS_NG_URL")

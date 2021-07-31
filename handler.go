@@ -31,15 +31,15 @@ func Dispatcher() gin.HandlerFunc {
 		} else if !isBrowser {
 			GetIP(c)
 		} else {
-			if PROD {
+			if DEV {
+				PassToNg(c)
+			} else {
 				// Serve static resources for browser
 				if c.Request.URL.Path == "/" {
 					c.FileFromFS("static/index.htm", http.FS(f))
 				} else {
 					c.FileFromFS("static/"+c.Request.URL.Path, http.FS(f))
 				}
-			} else {
-				PassToNg(c)
 			}
 		}
 	}
