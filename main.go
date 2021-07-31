@@ -1,6 +1,7 @@
 package main
 
 import (
+	"embed"
 	"fmt"
 	"net"
 	"os"
@@ -9,6 +10,9 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/oschwald/geoip2-golang"
 )
+
+//go:embed dbip static
+var f embed.FS
 
 var (
 	PORT         string
@@ -43,15 +47,15 @@ func init_database() {
 	var err error
 	db_asn, err := geoip2.Open(ASN_MMDB)
 	if err != nil {
-		fmt.Println("Not Found: ", ASN_MMDB)
+		fmt.Println(err)
 	}
 	db_city, err := geoip2.Open(City_MMDB)
 	if err != nil {
-		fmt.Println("Not Found: ", City_MMDB)
+		fmt.Println(err)
 	}
 	db_country, err := geoip2.Open(Country_MMDB)
 	if err != nil {
-		fmt.Println("Not Found: ", Country_MMDB)
+		fmt.Println(err)
 	}
 	db = DB{
 		ASN:     db_asn.ASN,
@@ -90,6 +94,15 @@ func main() {
 
 	// Add dispatcher
 	r.Use(Dispatcher())
+
+	/*
+		r.GET("/", func(c *gin.Context) {
+			c.FileFromFS("static/index.htm", http.FS(f))
+		})
+		r.GET("/:file", func(c *gin.Context) {
+			c.FileFromFS("static/"+c.Param("file"), http.FS(f))
+		})
+	*/
 
 	// Start
 	fmt.Println()

@@ -33,8 +33,14 @@ func Dispatcher() gin.HandlerFunc {
 		} else {
 			if PROD {
 				// Serve static resources for browser
-				file := STATIC + "/" + c.Request.URL.Path
-				http.ServeFile(c.Writer, c.Request, file)
+				//file := STATIC + "/" + c.Request.URL.Path
+				//http.ServeFile(c.Writer, c.Request, file)
+				//http.Handle("/", http.FileServer(http.Dir("/static")))
+				if c.Request.URL.Path == "/" {
+					c.FileFromFS("static/index.htm", http.FS(f))
+				} else {
+					c.FileFromFS("static/"+c.Request.URL.Path, http.FS(f))
+				}
 			} else {
 				PassToNg(c)
 			}

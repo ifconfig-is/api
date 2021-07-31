@@ -1,6 +1,6 @@
 module github.com/ifconfig-is/api
 
-go 1.13
+go 1.16
 
 require (
 	github.com/fatih/color v1.12.0
