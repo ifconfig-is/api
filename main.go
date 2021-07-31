@@ -15,14 +15,10 @@ import (
 var f embed.FS
 
 var (
-	PORT         string
-	STATIC       string
-	NG_URL       string
-	PROD         bool
-	DBIP_PATH    string
-	ASN_MMDB     string
-	City_MMDB    string
-	Country_MMDB string
+	PORT   string
+	STATIC string
+	NG_URL string
+	PROD   bool
 )
 
 type DB struct {
@@ -34,26 +30,18 @@ type DB struct {
 var db DB
 
 func init_database() {
-	// Set maxmind path
-	DBIP_PATH = os.Getenv("DBIP_PATH")
-	if DBIP_PATH == "" {
-		DBIP_PATH = "./dbip"
-	}
-	// Set mmdb path
-	ASN_MMDB = DBIP_PATH + "/asn.mmdb"
-	City_MMDB = DBIP_PATH + "/city.mmdb"
-	Country_MMDB = DBIP_PATH + "/country.mmdb"
-
-	var err error
-	db_asn, err := geoip2.Open(ASN_MMDB)
+	bytes_asn, err := f.ReadFile("dbip/asn.mmdb")
+	db_asn, err := geoip2.FromBytes(bytes_asn)
 	if err != nil {
 		fmt.Println(err)
 	}
-	db_city, err := geoip2.Open(City_MMDB)
+	bytes_city, err := f.ReadFile("dbip/city.mmdb")
+	db_city, err := geoip2.FromBytes(bytes_city)
 	if err != nil {
 		fmt.Println(err)
 	}
-	db_country, err := geoip2.Open(Country_MMDB)
+	bytes_country, err := f.ReadFile("dbip/country.mmdb")
+	db_country, err := geoip2.FromBytes(bytes_country)
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -94,15 +82,6 @@ func main() {
 
 	// Add dispatcher
 	r.Use(Dispatcher())
-
-	/*
-		r.GET("/", func(c *gin.Context) {
-			c.FileFromFS("static/index.htm", http.FS(f))
-		})
-		r.GET("/:file", func(c *gin.Context) {
-			c.FileFromFS("static/"+c.Param("file"), http.FS(f))
-		})
-	*/
 
 	// Start
 	fmt.Println()
