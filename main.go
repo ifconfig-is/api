@@ -11,7 +11,9 @@ import (
 )
 
 var (
-	Port         string
+	PORT         string
+	API          string
+	STATIC       string
 	DBIP_PATH    string
 	ASN_MMDB     string
 	City_MMDB    string
@@ -63,9 +65,14 @@ func init() {
 
 func main() {
 	// Set running port
-	Port = os.Getenv("IFCONFIGIS_API_PORT")
-	if Port == "" {
-		Port = "5000"
+	PORT = os.Getenv("IFCONFIGIS_API_PORT")
+	if PORT == "" {
+		PORT = "5000"
+	}
+	// Set static path
+	STATIC = os.Getenv("IFCONFIGIS_STATIC")
+	if STATIC == "" {
+		STATIC = "./static"
 	}
 
 	// Set router
@@ -74,13 +81,18 @@ func main() {
 	// Allow all origins
 	r.Use(cors.Default())
 
-	// Simple API
-	r.GET("/", GetIP)
-	r.GET("/json", GetJson)
-	r.GET("/json/:address", GetJsonWithIP)
+	// Add dispatcher
+	r.Use(Dispatcher())
+
+	/*
+		// API endpoints
+		r.GET("/", GetIP)
+		r.GET("/json", GetJson)
+		r.GET("/json/:address", GetJsonWithIP)
+	*/
 
 	// Start
 	fmt.Println()
 	fmt.Println("Listening...")
-	r.Run(":" + Port)
+	r.Run(":" + PORT)
 }

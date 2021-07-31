@@ -1,5 +1,5 @@
-# MaxMind files
-/maxmind
+# Static files
+/static
 
 # Binary
 api
