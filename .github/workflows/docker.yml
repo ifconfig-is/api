@@ -9,8 +9,23 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      # Checkout code
-      - uses: actions/checkout@master
+      - name: Checkout code
+        uses: actions/checkout@master
+
+      - name: Download static files
+        uses: i3h/download-release-asset@v1
+        with:
+          owner: ifconfig-is
+          repo: web
+          tag: latest
+          file: static.tar.gz
+
+      - name: Extract static files
+        run: |
+          mkdir static
+          tar xzvf static.tar.gz --directory static
+          pwd
+          ls -lha
 
       - name: Build and push Docker images
         uses: docker/build-push-action@v1

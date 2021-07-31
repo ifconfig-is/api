@@ -1,17 +1,18 @@
 # Build
-FROM golang:latest AS build
-WORKDIR /api
+FROM golang:1.13.11-buster AS build
+ARG DEBIAN_FRONTEND=noninteractive
+WORKDIR /
 COPY . .
+
+# Build api
 ENV GO111MODULE=on CGO_ENABLED=0
 RUN go build .
 
 # Run
 FROM scratch
 COPY --from=build \
-	/api/api \
-	/api
-
-ENV GEOIP2GQL_PORT=3000
-ENV MAXMIND_PATH=/maxmind
+	/api /api
+COPY --from=build \
+	/static /static
 
 ENTRYPOINT ["/api"]
