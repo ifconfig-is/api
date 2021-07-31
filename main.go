@@ -12,8 +12,9 @@ import (
 
 var (
 	PORT         string
-	API          string
 	STATIC       string
+	NG_URL       string
+	PROD         bool
 	DBIP_PATH    string
 	ASN_MMDB     string
 	City_MMDB    string
@@ -60,19 +61,25 @@ func init_database() {
 }
 
 func init() {
+	init_flag()
 	init_database()
 }
 
 func main() {
-	// Set running port
+	// Set global variables
 	PORT = os.Getenv("IFCONFIGIS_API_PORT")
 	if PORT == "" {
 		PORT = "5000"
 	}
-	// Set static path
+
 	STATIC = os.Getenv("IFCONFIGIS_STATIC")
 	if STATIC == "" {
 		STATIC = "./static"
+	}
+
+	NG_URL = os.Getenv("IFCONFIGIS_NG_URL")
+	if NG_URL == "" {
+		NG_URL = "http://127.0.0.1:5080"
 	}
 
 	// Set router
