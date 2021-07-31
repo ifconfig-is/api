@@ -36,6 +36,7 @@ jobs:
         run: |
           export GO111MODULE=on
           export CGO_ENABLED=0
+          export GIN_MODE=release
           go build .
 
       - name: Build and push Docker images
